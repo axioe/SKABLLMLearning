@@ -1,0 +1,23 @@
+# Streamlit Community Cloud 배포용 (Python 3.12)
+# - Ollama·torch 없이 동작: LLM과 임베딩은 Gemini API (Secrets의 GEMINI_API_KEY)
+# - 로컬에서 Ollama·Gradio까지 쓰려면 requirements-local.txt 설치
+streamlit==1.66.1
+# 딥러닝 프로젝트와 같은 버전 (저장된 모델·스케일러 호환). Linux 서버는 CPU 전용 패키지로 설치 용량을 줄인다
+tensorflow-cpu==2.21.0; sys_platform == "linux"
+tensorflow==2.21.0; sys_platform != "linux"
+keras==3.15.1
+scikit-learn==1.9.1
+numpy==2.5.4
+pandas==3.1.0
+joblib==1.6.0
+matplotlib==3.11.2
+# LLM · RAG
+langchain-core==1.7.6
+langchain-community==0.4.2
+langchain-text-splitters==1.1.3
+faiss-cpu==1.15.1
+rank-bm25==0.2.2
+google-genai==3.0.0
+requests==2.34.2
+python-dotenv==1.2.4
+fpdf2==2.9.0

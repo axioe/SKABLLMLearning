@@ -1,0 +1,6 @@
+# 로컬 노트북용: 배포용 패키지 + Ollama(로컬 LLM), 로컬 임베딩, Gradio 화면, 비교 실험
+-r requirements.txt
+gradio==6.31.0
+langchain-ollama==1.1.0
+langchain-huggingface==1.2.3
+sentence-transformers==6.2.0
