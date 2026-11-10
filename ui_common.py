@@ -6,6 +6,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import pandas as pd
+from matplotlib.ticker import FuncFormatter, NullFormatter
 
 import train_models as tm
 
@@ -37,6 +38,9 @@ def timeline_plot(detector, name, row):
     ax.axhline(thr, color='black', ls='--', lw=1, label=f'임계값 {thr:.2f}')
     ax.axvline(row, color=RED, lw=1.5)
     ax.set_yscale('log')
+    # 로그 축 눈금은 기본이 수식($10^{2}$)이라 Linux의 나눔고딕에서 수식 해석 오류(ValueError)가 난다 → 일반 숫자로 표시
+    ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f'{v:g}'))
+    ax.yaxis.set_minor_formatter(NullFormatter())
     ax.set_xlabel('시점 (초)')
     ax.legend(fontsize=8, loc='upper left', frameon=False, ncol=2)
     ax.spines[['top', 'right']].set_visible(False)
