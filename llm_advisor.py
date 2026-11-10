@@ -142,9 +142,17 @@ class LLMClient:
             from langchain_core.messages import HumanMessage, SystemMessage
             return client.invoke([SystemMessage(system), HumanMessage(user)]).content
         from google.genai import types
-        resp = client.models.generate_content(
-            model=self.model, contents=user,
-            config=types.GenerateContentConfig(system_instruction=system, temperature=self.temperature))
+        cfg = types.GenerateContentConfig(system_instruction=system, temperature=self.temperature)
+        try:
+            resp = client.models.generate_content(model=self.model, contents=user, config=cfg)
+        except Exception as e:
+            # 404(모델 종료)·503(과부하)이면 예비 모델로 한 번 더 시도. 404는 이후에도 예비 모델을 쓴다
+            fallback = config.GEMINI_FALLBACK_MODEL
+            if not fallback or fallback == self.model or not any(c in str(e) for c in ('404', '503', 'UNAVAILABLE')):
+                raise
+            resp = client.models.generate_content(model=fallback, contents=user, config=cfg)
+            if '404' in str(e):
+                self.model = fallback
         if not resp.text:   # 안전 필터 등으로 빈 응답이 오면 화면이 깨지지 않게 안내 문구를 돌려준다
             return '(LLM이 빈 응답을 돌려주었습니다. 잠시 후 다시 시도해 주세요.)'
         return resp.text

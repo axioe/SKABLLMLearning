@@ -67,7 +67,9 @@ LLM_BACKEND = _setting('LLM_BACKEND', 'auto').lower()   # auto / ollama / gemini
 OLLAMA_BASE_URL = _setting('OLLAMA_BASE_URL', 'http://localhost:11434')
 # 기본은 가벼운 gemma4:e2b (GPU 없는 16GB 노트북에서 gemma2 9B는 메모리 부족·느린 응답). gemma2는 비교 실험에 사용
 OLLAMA_MODEL = _setting('OLLAMA_MODEL', 'gemma4:e2b')
-GEMINI_MODEL = _setting('GEMINI_MODEL', 'gemini-2.5-flash')
+# gemini-2.5-flash는 새로 발급한 키에서 쓸 수 없어(404) 3.5로 변경. 과부하(503)·사용 불가 시 예비 모델로 한 번 더 시도
+GEMINI_MODEL = _setting('GEMINI_MODEL', 'gemini-3.5-flash')
+GEMINI_FALLBACK_MODEL = _setting('GEMINI_FALLBACK_MODEL', 'gemini-3.5-flash-lite')
 GEMINI_API_KEY = _setting('GEMINI_API_KEY', '')
 LLM_TEMPERATURE = float(_setting('LLM_TEMPERATURE', '0.2'))   # 정비 안내는 일관성이 중요해 낮게 설정
 

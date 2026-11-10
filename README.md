@@ -21,7 +21,7 @@ LLM은 고장을 직접 판단하지 않습니다. 딥러닝 판정 결과(JSON)
 | 환경 | LLM | 임베딩 (벡터 검색) | 화면 |
 | --- | --- | --- | --- |
 | 로컬 노트북 | Ollama gemma4:e2b | jhgan/ko-sroberta-multitask (sentence-transformers) | `streamlit_app.py` 또는 `app.py`(Gradio) |
-| Streamlit Cloud | Gemini 2.5 Flash (Secrets의 키) | gemini-embedding-001 | `streamlit_app.py` |
+| Streamlit Cloud | Gemini 3.5 Flash (Secrets의 키, 과부하 시 3.5 Flash-Lite) | gemini-embedding-001 | `streamlit_app.py` |
 | API 키 없음 | 사용 불가 (안내 문구 표시) | 사용 불가 → BM25만 | 딥러닝 판정과 문서 검색은 정상 동작 |
 
 `LLM_BACKEND=auto`(기본)는 Ollama가 켜져 있으면 Ollama, 아니면 Gemini를 씁니다. Streamlit Cloud에서는 Ollama를 띄울 수 없고 torch 설치가 무거워, LLM과 임베딩을 모두 Gemini API로 바꿉니다.
