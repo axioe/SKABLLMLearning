@@ -2,8 +2,9 @@
 # - Ollama·torch 없이 동작: LLM과 임베딩은 Gemini API (Secrets의 GEMINI_API_KEY)
 # - 로컬에서 Ollama·Gradio까지 쓰려면 requirements-local.txt 설치
 streamlit==1.66.1
-# 딥러닝 프로젝트와 같은 버전 (저장된 모델·스케일러 호환). Linux 서버는 CPU 전용 패키지로 설치 용량을 줄인다
-tensorflow-cpu==2.21.0; sys_platform == "linux"
+# 모델은 .keras 형식이라 keras 버전(3.15.1)만 같으면 불러올 수 있다.
+# TensorFlow 2.21.0은 Linux용 설치 파일이 없어 Linux 서버는 2.20.0 CPU 전용 패키지를 쓴다 (Python 3.12·3.13만 가능)
+tensorflow-cpu==2.20.0; sys_platform == "linux"
 tensorflow==2.21.0; sys_platform != "linux"
 keras==3.15.1
 scikit-learn==1.9.1
