@@ -54,7 +54,7 @@ LLM은 고장을 직접 판단하지 않습니다. 딥러닝 판정 결과(JSON)
    ```toml
    GEMINI_API_KEY = "Google AI Studio에서 발급한 키"
    ```
-4. 처음 배포는 TensorFlow 설치 때문에 몇 분 걸립니다. 첫 판정 때 정비 문서 22개를 Gemini로 임베딩해 인덱스를 만듭니다.
+4. 처음 배포는 TensorFlow 설치 때문에 몇 분 걸립니다. 첫 판정 때 정비 문서 청크 23개를 Gemini로 임베딩해 인덱스를 만듭니다.
 
 ## 로컬 실행 (Windows, Python 3.12)
 
@@ -80,6 +80,12 @@ Gradio 화면은 `.venv\Scripts\python.exe app.py` (http://localhost:7861)로 �
 
 - 시연 노트북: 16GB RAM, GPU 없음. gemma2(9B)는 메모리 부족으로 실패해 gemma4:e2b를 기본으로 사용합니다.
 - 센서 기여도는 평소와 가장 다르게 움직인 센서이며, 고장 원인의 증명이 아닙니다.
-- 지식 문서는 일반적인 원심 펌프 정비 지식과 딥러닝 프로젝트 분석 결과로 작성했습니다. 실제 설비에서는 제조사 매뉴얼을 우선합니다.
+- 지식 문서(`knowledge/`)는 문장마다 근거를 표시했습니다. 실제 설비에서는 제조사 매뉴얼을 우선합니다.
+  - `[SKAB]` 센서 정의 · 실험 종류: Katser & Kozitsin, *SKAB*, 2020 (https://github.com/waico/SKAB)
+  - `[DL]` 모델 성능 · 고장별 기여 센서: 딥러닝 프로젝트 노트북 `김영현_딥러닝프로젝트.ipynb`
+  - `[Xylem]` 캐비테이션 · NPSH: Xylem, *Pump cavitation and how to avoid it* (white paper)
+  - `[OSHA]` 잠금 · 표지(LOTO) 절차: OSHA 29 CFR 1910.147 (https://www.osha.gov/laws-regs/regulations/standardnumber/1910/1910.147)
+  - `[자체 규칙]` 긴급도 기준 · 점검 순서는 이 프로젝트에서 정한 규칙, `[일반 지식]` 공식 출처로 확인하지 못한 점검 항목
+  - 각 문서 끝의 "참고 자료" 섹션은 검색 대상에서 제외합니다.
 - Gemini 무료 사용량을 넘으면 정비 안내 자리에 "잠시 후 다시 시도" 안내가 나오고, 판정 화면은 그대로 유지됩니다.
 - 데이터: Katser & Kozitsin, *Skoltech Anomaly Benchmark (SKAB)*, 2020. GPL-3.0. https://github.com/waico/SKAB

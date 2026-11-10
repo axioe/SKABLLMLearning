@@ -115,6 +115,8 @@ class MaintenanceKnowledgeBase:
             title = re.search(r'^# (.+)$', text, re.M).group(1).strip()
             for part in re.split(r'^## ', text, flags=re.M)[1:]:
                 heading, _, body = part.partition('\n')
+                if heading.strip() == '참고 자료':   # 출처 목록은 검색 대상이 아니다 (문서 끝에만 기록)
+                    continue
                 section = f'{title} > {heading.strip()}'
                 for piece in splitter.split_text(body.strip()):
                     # 청크 앞에 제목을 붙여 두면 검색할 때 문맥을 잃지 않는다
