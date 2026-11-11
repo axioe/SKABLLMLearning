@@ -28,9 +28,12 @@ def _setting(name: str, default: str = '') -> str:
         return default
 
 
-def _writable(path: Path) -> Path:
-    """쓰기 가능한 폴더를 돌려준다. 배포 서버에서 프로젝트 폴더에 쓸 수 없으면 임시 폴더를 쓴다."""
+def _writable(path: Path, ascii_only: bool = False) -> Path:
+    """쓰기 가능한 폴더를 돌려준다. 배포 서버에서 프로젝트 폴더에 쓸 수 없으면 임시 폴더를 쓴다.
+    ascii_only: FAISS(Windows)는 한글이 들어간 경로에 인덱스를 저장하지 못해 임시 폴더를 쓴다."""
     try:
+        if ascii_only and not str(path).isascii():
+            raise OSError('non-ascii path')
         path.mkdir(parents=True, exist_ok=True)
         probe = path / '.write_test'
         probe.write_text('ok')
@@ -45,7 +48,7 @@ def _writable(path: Path) -> Path:
 MODEL_DIR = BASE_DIR / 'models'            # 딥러닝 프로젝트에서 학습한 모델 (재학습 없이 사용)
 DATA_DIR = BASE_DIR / 'dataset' / 'SKAB'   # 시연용 실험 CSV 4개
 KNOWLEDGE_DIR = BASE_DIR / 'knowledge'     # RAG 지식 문서 (Markdown)
-INDEX_DIR = _writable(BASE_DIR / 'vector_index')   # FAISS 인덱스 캐시 (임베딩 방식별 하위 폴더)
+INDEX_DIR = _writable(BASE_DIR / 'vector_index', ascii_only=True)   # FAISS 인덱스 캐시 (임베딩 방식별 하위 폴더)
 OUTPUT_DIR = _writable(BASE_DIR / 'outputs')       # 정비 리포트, 평가 결과
 
 # ---------- 센서 ----------
